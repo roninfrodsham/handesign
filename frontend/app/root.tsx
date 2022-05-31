@@ -1,7 +1,8 @@
 import type { LinksFunction, LoaderFunction, ActionFunction } from "@remix-run/node";
-import { Meta, Links, Scripts, LiveReload, useLoaderData } from "@remix-run/react";
+import { Meta, Links, Scripts, LiveReload, useLoaderData, Form } from "@remix-run/react";
 import { Outlet } from "react-router-dom";
 import { gql } from 'graphql-request';
+import invariant from "tiny-invariant";
 import { client } from '~/server/graphql-client.server';
 import { globalQuery } from "~/server/graphql-queries.server";
 import { markdownToHTML } from "~/server/markdownToHTML.server";
@@ -25,6 +26,19 @@ export let loader: LoaderFunction = async () => {
     API_HOST: process.env.API_HOST,
   };
 };
+
+export let action: ActionFunction = async ({request}) => {
+  let formData = await request.formData();
+  let email = formData.get("email");
+  console.log(email);
+  invariant(email, "email is required");
+  // const endPoint = "https://handesign.us11.list-manage.com/subscribe/post?u=7869a7c5462cc9b797ede22b8&amp;id=3cccdc3e9b";
+  // let res = await fetch(endPoint);
+  // return res;
+  return {
+    ok: true
+  };
+}
 
 function Document({ children }: { children: React.ReactNode }) {
   return (
@@ -55,6 +69,13 @@ export default function App() {
       <EnvProvider API_HOST={data.API_HOST}>
         <Header pages={data.pages} categories={data.categories} />
         <Outlet />
+        <div className="mtl">
+          <p className="large">Subscribe to our newsletter</p>
+          <Form method="post">
+            <input type="email" name="email" placeholder="you@example.com" />
+            <button type="submit" className="button">Subscribe</button>   
+          </Form>
+        </div>
         <Footer londonShowroom={data.londonShowroom} cheshireShowroom={data.cheshireShowroom} />
       </EnvProvider>
     </Document>
