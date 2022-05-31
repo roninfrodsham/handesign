@@ -32,9 +32,6 @@ export let action: ActionFunction = async ({request}) => {
   let email = formData.get("email");
   console.log(email);
   invariant(email, "email is required");
-  // const endPoint = "https://handesign.us11.list-manage.com/subscribe/post?u=7869a7c5462cc9b797ede22b8&amp;id=3cccdc3e9b";
-  // let res = await fetch(endPoint);
-  // return res;
   return {
     ok: true
   };
