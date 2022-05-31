@@ -1,0 +1,31 @@
+{
+  "collectionName": "components_shared_two_image_blocks",
+  "info": {
+    "displayName": "TwoImageBlock",
+    "icon": "images",
+    "description": ""
+  },
+  "options": {},
+  "attributes": {
+    "imageLandscape": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
+      "allowedTypes": [
+        "images"
+      ]
+    },
+    "imagePortrait": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
+      "allowedTypes": [
+        "images"
+      ]
+    },
+    "landscapeLeft": {
+      "type": "boolean",
+      "default": true
+    }
+  }
+}

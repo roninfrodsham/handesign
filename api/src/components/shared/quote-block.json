@@ -1,0 +1,16 @@
+{
+  "collectionName": "components_shared_quote_blocks",
+  "info": {
+    "displayName": "QuoteBlock",
+    "icon": "quote-left",
+    "description": ""
+  },
+  "options": {},
+  "attributes": {
+    "quote": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::client-quote.client-quote"
+    }
+  }
+}

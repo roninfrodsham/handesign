@@ -1,0 +1,30 @@
+{
+  "collectionName": "components_shared_cover_images",
+  "info": {
+    "displayName": "CoverImage",
+    "icon": "image"
+  },
+  "options": {},
+  "attributes": {
+    "imageLandscape": {
+      "allowedTypes": [
+        "images",
+        "files",
+        "videos",
+        "audios"
+      ],
+      "type": "media",
+      "multiple": false
+    },
+    "imagePortrait": {
+      "allowedTypes": [
+        "images",
+        "files",
+        "videos",
+        "audios"
+      ],
+      "type": "media",
+      "multiple": false
+    }
+  }
+}

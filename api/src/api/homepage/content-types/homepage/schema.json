@@ -1,0 +1,39 @@
+{
+  "kind": "singleType",
+  "collectionName": "homepages",
+  "info": {
+    "singularName": "homepage",
+    "pluralName": "homepages",
+    "displayName": "Homepage",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "Title": {
+      "type": "string"
+    },
+    "Description": {
+      "type": "richtext"
+    },
+    "ProjectBlock": {
+      "displayName": "ProjectBlock",
+      "type": "component",
+      "repeatable": false,
+      "component": "shared.project-block"
+    },
+    "QuickLinks": {
+      "displayName": "QuickLinks",
+      "type": "component",
+      "repeatable": false,
+      "component": "shared.quick-links"
+    },
+    "SEO": {
+      "type": "component",
+      "repeatable": false,
+      "component": "shared.seo"
+    }
+  }
+}

@@ -1,0 +1,55 @@
+{
+  "kind": "collectionType",
+  "collectionName": "projects",
+  "info": {
+    "singularName": "project",
+    "pluralName": "projects",
+    "displayName": "Project",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "Title": {
+      "type": "string",
+      "required": true
+    },
+    "Slug": {
+      "type": "uid",
+      "targetField": "Title",
+      "required": true
+    },
+    "Description": {
+      "type": "richtext",
+      "required": false
+    },
+    "CoverImage": {
+      "type": "component",
+      "repeatable": false,
+      "component": "shared.cover-image"
+    },
+    "Category": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::category.category",
+      "inversedBy": "Projects"
+    },
+    "ContentZone": {
+      "type": "dynamiczone",
+      "components": [
+        "shared.one-image-block",
+        "shared.quote-block",
+        "shared.text-block",
+        "shared.three-image-block",
+        "shared.two-image-block"
+      ]
+    },
+    "SEO": {
+      "type": "component",
+      "repeatable": false,
+      "component": "shared.seo"
+    }
+  }
+}

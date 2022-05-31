@@ -1,0 +1,25 @@
+{
+  "collectionName": "components_shared_quick_links",
+  "info": {
+    "displayName": "QuickLinks",
+    "icon": "link"
+  },
+  "options": {},
+  "attributes": {
+    "CategoryPage": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::category.category"
+    },
+    "ProjectPage": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::project.project"
+    },
+    "CompanyPage": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::page.page"
+    }
+  }
+}

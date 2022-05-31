@@ -1,0 +1,25 @@
+{
+  "collectionName": "components_shared_project_blocks",
+  "info": {
+    "displayName": "ProjectBlock",
+    "icon": "th"
+  },
+  "options": {},
+  "attributes": {
+    "FeaturedProject": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::project.project"
+    },
+    "LatestProjectOne": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::project.project"
+    },
+    "LatestProjectTwo": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::project.project"
+    }
+  }
+}

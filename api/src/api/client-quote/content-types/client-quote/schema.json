@@ -1,0 +1,22 @@
+{
+  "kind": "collectionType",
+  "collectionName": "client_quotes",
+  "info": {
+    "singularName": "client-quote",
+    "pluralName": "client-quotes",
+    "displayName": "ClientQuote",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "Name": {
+      "type": "string"
+    },
+    "Quote": {
+      "type": "text"
+    }
+  }
+}

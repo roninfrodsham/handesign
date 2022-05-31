@@ -1,0 +1,19 @@
+{
+  "collectionName": "components_shared_one_image_blocks",
+  "info": {
+    "displayName": "OneImageBlock",
+    "icon": "file-image",
+    "description": ""
+  },
+  "options": {},
+  "attributes": {
+    "imageLandscape": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
+      "allowedTypes": [
+        "images"
+      ]
+    }
+  }
+}
