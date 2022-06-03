@@ -1,5 +1,5 @@
 import type { LinksFunction, LoaderFunction, ActionFunction } from "@remix-run/node";
-import { Meta, Links, Scripts, LiveReload, useLoaderData, Form } from "@remix-run/react";
+import { Meta, Links, Scripts, LiveReload, useLoaderData, Form, useActionData } from "@remix-run/react";
 import { Outlet } from "react-router-dom";
 import { gql } from 'graphql-request';
 import invariant from "tiny-invariant";
@@ -30,19 +30,17 @@ export let loader: LoaderFunction = async () => {
 export let action: ActionFunction = async ({request}) => {
   let formData = await request.formData();
   let email = formData.get("email");
-  console.log(email);
   invariant(email, "email is required");
   const mailchimp = require("@mailchimp/mailchimp_marketing");
   mailchimp.setConfig({
     apiKey: process.env.MC_API_KEY,
     server: process.env.MC_SERVER,
   });
-  async function run() {
-    const response = await mailchimp.ping.get();
-    console.log(response);
-  }
-  run();
-
+  const response = await mailchimp.lists.addListMember(process.env.MC_LIST_ID, {
+    email_address: email,
+    status: "subscribed",
+  });
+  console.log(response);
 
   return {
     ok: true
@@ -71,6 +69,7 @@ function Document({ children }: { children: React.ReactNode }) {
 
 export default function App() {
   let data = useLoaderData();
+  let actionData = useActionData();
 
   return (
     <Document>
@@ -82,7 +81,8 @@ export default function App() {
           <p className="large">Subscribe to our newsletter</p>
           <Form method="post">
             <input type="email" name="email" placeholder="you@example.com" />
-            <button type="submit" className="button">Subscribe</button>   
+            <button type="submit" className="button">Subscribe</button>
+            <p>{actionData?.error ? actionData.message : <>&nbsp;</>}</p>
           </Form>
         </div>
         <Footer londonShowroom={data.londonShowroom} cheshireShowroom={data.cheshireShowroom} />
