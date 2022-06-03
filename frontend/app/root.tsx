@@ -1,5 +1,5 @@
 import type { LinksFunction, LoaderFunction, ActionFunction } from "@remix-run/node";
-import { Meta, Links, Scripts, LiveReload, useLoaderData, Form, useActionData } from "@remix-run/react";
+import { Meta, Links, Scripts, LiveReload, useLoaderData, Form, useActionData, useTransition } from "@remix-run/react";
 import { Outlet } from "react-router-dom";
 import { gql } from 'graphql-request';
 import invariant from "tiny-invariant";
@@ -40,11 +40,8 @@ export let action: ActionFunction = async ({request}) => {
     email_address: email,
     status: "subscribed",
   });
-  console.log(response);
-
-  return {
-    ok: true
-  };
+  console.log(response)
+  return response;
 }
 
 function Document({ children }: { children: React.ReactNode }) {
@@ -70,6 +67,14 @@ function Document({ children }: { children: React.ReactNode }) {
 export default function App() {
   let data = useLoaderData();
   let actionData = useActionData();
+  let transition = useTransition();
+  const state: "idle" | "success" | "error" | "submitting" = transition.submission
+    ? "submitting"
+    : actionData?.subscription
+    ? "success"
+    : actionData?.error
+    ? "error"
+    : "idle";
 
   return (
     <Document>
@@ -80,9 +85,8 @@ export default function App() {
         <div className="mtl">
           <p className="large">Subscribe to our newsletter</p>
           <Form method="post">
-            <input type="email" name="email" placeholder="you@example.com" />
+            <input aria-label="email" type="email" name="email" placeholder="you@example.com" />
             <button type="submit" className="button">Subscribe</button>
-            <p>{actionData?.error ? actionData.message : <>&nbsp;</>}</p>
           </Form>
         </div>
         <Footer londonShowroom={data.londonShowroom} cheshireShowroom={data.cheshireShowroom} />
