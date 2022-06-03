@@ -32,6 +32,18 @@ export let action: ActionFunction = async ({request}) => {
   let email = formData.get("email");
   console.log(email);
   invariant(email, "email is required");
+  const mailchimp = require("@mailchimp/mailchimp_marketing");
+  mailchimp.setConfig({
+    apiKey: process.env.MC_API_KEY,
+    server: process.env.MC_SERVER,
+  });
+  async function run() {
+    const response = await mailchimp.ping.get();
+    console.log(response);
+  }
+  run();
+
+
   return {
     ok: true
   };
