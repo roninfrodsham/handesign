@@ -1,5 +1,6 @@
+import { useRef } from "react";
 import type { LinksFunction, LoaderFunction, ActionFunction } from "@remix-run/node";
-import { Meta, Links, Scripts, LiveReload, useLoaderData, Form, useActionData, useTransition } from "@remix-run/react";
+import { Meta, Links, Link, Scripts, LiveReload, useLoaderData, Form, useActionData, useTransition } from "@remix-run/react";
 import { Outlet } from "react-router-dom";
 import { gql } from 'graphql-request';
 import invariant from "tiny-invariant";
@@ -70,11 +71,13 @@ export default function App() {
   let transition = useTransition();
   const state: "idle" | "success" | "error" | "submitting" = transition.submission
     ? "submitting"
-    : actionData?.subscription
+    : actionData?.status
     ? "success"
     : actionData?.error
     ? "error"
     : "idle";
+
+  const successRef = useRef<HTMLHeadingElement>(null);
 
   return (
     <Document>
@@ -82,12 +85,19 @@ export default function App() {
       <EnvProvider API_HOST={data.API_HOST}>
         <Header pages={data.pages} categories={data.categories} />
         <Outlet />
-        <div className="mtl">
-          <p className="large">Subscribe to our newsletter</p>
-          <Form method="post">
-            <input aria-label="email" type="email" name="email" placeholder="you@example.com" />
+        <div className="mtl newsletter">
+          <Form method="post" aria-hidden={state === "success"}>
+            <p className="large">Subscribe to our newsletter</p>
+            <input aria-label="Email address" type="email" name="email" placeholder="you@example.com" />
             <button type="submit" className="button">Subscribe</button>
           </Form>
+          <div aria-hidden={state !== "success"}>
+            <p className="large" ref={successRef} tabIndex={-1}>
+              You're subscribed!
+            </p>
+            <p>You'll receive updates and product news from Hetherington Newman.</p>
+            <Link to=".">Reload form</Link>
+          </div>
         </div>
         <Footer londonShowroom={data.londonShowroom} cheshireShowroom={data.cheshireShowroom} />
       </EnvProvider>
