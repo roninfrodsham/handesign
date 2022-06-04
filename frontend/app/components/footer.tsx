@@ -1,4 +1,5 @@
 import { createMarkup } from "../utils/misc";
+import { NewsletterSignup } from "./newsletter-signup";
 
 export interface FooterProps {
   londonShowroom: string;
@@ -11,6 +12,7 @@ function Footer({londonShowroom, cheshireShowroom }: FooterProps) {
 
   return (
     <>
+      <NewsletterSignup />
       <div className="mtl">
         <p className="large">Do you have a project to discuss?</p>
         <a href="mailto:info@handesign.co.uk" className="button">Book a consultation</a>

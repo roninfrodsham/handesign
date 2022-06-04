@@ -28,6 +28,7 @@ p {
 a {
   outline: none;
   text-decoration: none;
+  color: #000;
 }
 
 h1, h2, h3, h5 {

@@ -1,9 +1,7 @@
-import { useRef } from "react";
-import type { LinksFunction, LoaderFunction, ActionFunction } from "@remix-run/node";
-import { Meta, Links, Link, Scripts, LiveReload, useLoaderData, Form, useActionData, useTransition } from "@remix-run/react";
+import type { LinksFunction, LoaderFunction } from "@remix-run/node";
+import { Meta, Links, Scripts, LiveReload, useLoaderData } from "@remix-run/react";
 import { Outlet } from "react-router-dom";
 import { gql } from 'graphql-request';
-import invariant from "tiny-invariant";
 import { client } from '~/server/graphql-client.server';
 import { globalQuery } from "~/server/graphql-queries.server";
 import { markdownToHTML } from "~/server/markdownToHTML.server";
@@ -28,22 +26,22 @@ export let loader: LoaderFunction = async () => {
   };
 };
 
-export let action: ActionFunction = async ({request}) => {
-  let formData = await request.formData();
-  let email = formData.get("email");
-  invariant(email, "email is required");
-  const mailchimp = require("@mailchimp/mailchimp_marketing");
-  mailchimp.setConfig({
-    apiKey: process.env.MC_API_KEY,
-    server: process.env.MC_SERVER,
-  });
-  const response = await mailchimp.lists.addListMember(process.env.MC_LIST_ID, {
-    email_address: email,
-    status: "subscribed",
-  });
-  console.log(response)
-  return response;
-}
+// export let action: ActionFunction = async ({request}) => {
+//   let formData = await request.formData();
+//   let email = formData.get("email");
+//   invariant(email, "email is required");
+//   const mailchimp = require("@mailchimp/mailchimp_marketing");
+//   mailchimp.setConfig({
+//     apiKey: process.env.MC_API_KEY,
+//     server: process.env.MC_SERVER,
+//   });
+//   const response = await mailchimp.lists.addListMember(process.env.MC_LIST_ID, {
+//     email_address: email,
+//     status: "subscribed",
+//   });
+//   console.log("RESPONSE STATUS", response.status);
+//   return response;
+// }
 
 function Document({ children }: { children: React.ReactNode }) {
   return (
@@ -67,17 +65,35 @@ function Document({ children }: { children: React.ReactNode }) {
 
 export default function App() {
   let data = useLoaderData();
-  let actionData = useActionData();
-  let transition = useTransition();
-  const state: "idle" | "success" | "error" | "submitting" = transition.submission
-    ? "submitting"
-    : actionData?.status
-    ? "success"
-    : actionData?.error
-    ? "error"
-    : "idle";
+  // let actionData = useActionData();
+  // let transition = useTransition();
+  // const state: "idle" | "success" | "error" | "submitting" = transition.submission
+  //   ? "submitting"
+  //   : actionData?.status
+  //   ? "success"
+  //   : actionData?.error
+  //   ? "error"
+  //   : "idle";
 
-  const successRef = useRef<HTMLHeadingElement>(null);
+  // const inputRef = useRef<HTMLInputElement>(null);
+  // const successRef = useRef<HTMLHeadingElement>(null);
+  // const mounted = useRef<boolean>(false);
+
+  // useEffect(() => {
+  //   if (state === "error") {
+  //     inputRef.current?.focus();
+  //   }
+
+  //   if (state === "idle" && mounted.current) {
+  //     inputRef.current?.select();
+  //   }
+
+  //   if (state === "success") {
+  //     successRef.current?.focus();
+  //   }
+
+  //   mounted.current = true;
+  // }, [state]);
 
   return (
     <Document>
@@ -85,20 +101,6 @@ export default function App() {
       <EnvProvider API_HOST={data.API_HOST}>
         <Header pages={data.pages} categories={data.categories} />
         <Outlet />
-        <div className="mtl newsletter">
-          <Form method="post" aria-hidden={state === "success"}>
-            <p className="large">Subscribe to our newsletter</p>
-            <input aria-label="Email address" type="email" name="email" placeholder="you@example.com" />
-            <button type="submit" className="button">Subscribe</button>
-          </Form>
-          <div aria-hidden={state !== "success"}>
-            <p className="large" ref={successRef} tabIndex={-1}>
-              You're subscribed!
-            </p>
-            <p>You'll receive updates and product news from Hetherington Newman.</p>
-            <Link to=".">Reload form</Link>
-          </div>
-        </div>
         <Footer londonShowroom={data.londonShowroom} cheshireShowroom={data.cheshireShowroom} />
       </EnvProvider>
     </Document>

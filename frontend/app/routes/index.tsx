@@ -1,4 +1,4 @@
-import type { MetaFunction, LoaderFunction, ActionFunction } from "@remix-run/node";
+import type { MetaFunction, LoaderFunction } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import { gql } from 'graphql-request';
 import { client } from '~/server/graphql-client.server';
