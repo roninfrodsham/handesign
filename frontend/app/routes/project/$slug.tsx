@@ -12,7 +12,7 @@ import { TextBlock } from "../../components/text-block";
 import { ContentZone } from "../../components/content-zone";
 
 export let meta: MetaFunction = ({ data }) => {
-  if (data.SEO) {
+  if (data?.SEO) {
     return {
       title: data.SEO.metaTitle,
       description: data.SEO.metaDescription
@@ -23,6 +23,14 @@ export let meta: MetaFunction = ({ data }) => {
 export let loader: LoaderFunction = async ({ params }) => {
   const query = collectionPageQuery("projects", params.slug);
   let res = await client.request(gql`${query}`);
+  
+  if (!res.projects.data.length) {
+    throw new Response("Not Found", {
+      status: 404,
+      statusText: "Project Not Found"
+    });
+  }
+
   return {
     title: res.projects.data[0].attributes.Title,
     description: markdownToHTML((res.projects.data[0].attributes.Description) ? res.projects.data[0].attributes.Description : ""),

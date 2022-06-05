@@ -1,5 +1,5 @@
 import type { LinksFunction, LoaderFunction } from "@remix-run/node";
-import { Meta, Links, Scripts, LiveReload, useLoaderData } from "@remix-run/react";
+import { Meta, Links, Scripts, LiveReload, useLoaderData, useCatch } from "@remix-run/react";
 import { Outlet } from "react-router-dom";
 import { gql } from 'graphql-request';
 import { client } from '~/server/graphql-client.server';
@@ -15,7 +15,7 @@ export let links: LinksFunction = () => {
   return [{ rel: "stylesheet", href: stylesUrl }];
 };
 
-export let loader: LoaderFunction = async () => {
+export let loader: LoaderFunction = async (request) => {
   let res = await client.request(gql`${globalQuery}`);
   return {
     londonShowroom: markdownToHTML(res.global.data.attributes.LondonShowroom),
@@ -25,23 +25,6 @@ export let loader: LoaderFunction = async () => {
     API_HOST: process.env.API_HOST,
   };
 };
-
-// export let action: ActionFunction = async ({request}) => {
-//   let formData = await request.formData();
-//   let email = formData.get("email");
-//   invariant(email, "email is required");
-//   const mailchimp = require("@mailchimp/mailchimp_marketing");
-//   mailchimp.setConfig({
-//     apiKey: process.env.MC_API_KEY,
-//     server: process.env.MC_SERVER,
-//   });
-//   const response = await mailchimp.lists.addListMember(process.env.MC_LIST_ID, {
-//     email_address: email,
-//     status: "subscribed",
-//   });
-//   console.log("RESPONSE STATUS", response.status);
-//   return response;
-// }
 
 function Document({ children }: { children: React.ReactNode }) {
   return (
@@ -65,35 +48,6 @@ function Document({ children }: { children: React.ReactNode }) {
 
 export default function App() {
   let data = useLoaderData();
-  // let actionData = useActionData();
-  // let transition = useTransition();
-  // const state: "idle" | "success" | "error" | "submitting" = transition.submission
-  //   ? "submitting"
-  //   : actionData?.status
-  //   ? "success"
-  //   : actionData?.error
-  //   ? "error"
-  //   : "idle";
-
-  // const inputRef = useRef<HTMLInputElement>(null);
-  // const successRef = useRef<HTMLHeadingElement>(null);
-  // const mounted = useRef<boolean>(false);
-
-  // useEffect(() => {
-  //   if (state === "error") {
-  //     inputRef.current?.focus();
-  //   }
-
-  //   if (state === "idle" && mounted.current) {
-  //     inputRef.current?.select();
-  //   }
-
-  //   if (state === "success") {
-  //     successRef.current?.focus();
-  //   }
-
-  //   mounted.current = true;
-  // }, [state]);
 
   return (
     <Document>
@@ -107,12 +61,32 @@ export default function App() {
   );
 }
 
+export function CatchBoundary() {
+  const caught = useCatch();
+  console.log(caught, null, 4);
+  return (
+    <html>
+      <head>
+        <title>Oops!</title>
+        <Meta />
+        <Links />
+      </head>
+      <body>
+        <h1>
+          {caught.status}
+        </h1>
+        <p>{caught.statusText}</p>
+        <Scripts />
+      </body>
+    </html>
+  );
+}
+
 export function ErrorBoundary({ error }: { error: Error }) {
   return (
     <Document>
       <h1>App Error</h1>
       <pre>{error.message}</pre>
-      <p>An error occured, go the homepage.</p>
     </Document>
   );
 }

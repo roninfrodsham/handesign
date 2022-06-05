@@ -1,10 +1,8 @@
-import invariant from "tiny-invariant";
+const mailchimp = require("@mailchimp/mailchimp_marketing");
 
 export async function action ({ request }) {
-  const mailchimp = require("@mailchimp/mailchimp_marketing");
   let formData = await request.formData();
   let email = formData.get("email");
-  invariant(email, "Email is required");
   mailchimp.setConfig({
     apiKey: process.env.MC_API_KEY,
     server: process.env.MC_SERVER,
@@ -13,6 +11,5 @@ export async function action ({ request }) {
     email_address: email,
     status: "subscribed",
   });
-  console.log("RESPONSE STATUS", response.status);
   return response;
 }

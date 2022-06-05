@@ -1,5 +1,5 @@
 import type { MetaFunction, LoaderFunction } from "@remix-run/node";
-import { useLoaderData } from "@remix-run/react";
+import { useActionData, useLoaderData } from "@remix-run/react";
 import { gql } from 'graphql-request';
 import { client } from '~/server/graphql-client.server';
 import { homepageQuery } from "~/server/graphql-queries.server";
@@ -51,6 +51,16 @@ export default function Index() {
       <ImageBlock imageData={[getData(latestProjectOne, "Landscape", "/project/"), getData(latestProjectTwo, "Portrait", "/project/")]} />
       <TextBlock text={description} />
       <ImageBlock imageData={[getData(projectPage, "Portrait", "/project/"), getData(categoryPage, "Portrait", "/projects/"), getData(companyPage, "Portrait", "/company/")]} />
+    </>
+  );
+}
+
+export function ErrorBoundary({ error }: { error: Error }) {
+  console.log("ERROR", error, null, 4);
+  return (
+    <>
+      <h1>Application Error</h1>
+      <pre>{error.message}</pre>
     </>
   );
 }
