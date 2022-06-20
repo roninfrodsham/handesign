@@ -35,6 +35,7 @@ export let loader: LoaderFunction = async ({ params }) => {
 export default function ProjectCategory() {
   let latestProjects: Array<any> = [];
   let remainder: number = 0;
+  let remainingProjects: Array<any> = [];
   let {projects, title, description, latestProjectId} = useLoaderData();
   // get the featuted project
   const featuredProject = projects.find(project => project.id === latestProjectId);
@@ -45,9 +46,8 @@ export default function ProjectCategory() {
     // get the latest projects
     latestProjects = projectsFiltered.splice(0, 2);
     // get the number remaining projects based on rows of three
-    const remainder = projectsFiltered.length % 3;
+    remainder = projectsFiltered.length % 3;
     // get the remaining projects to tag on after the rows of three
-    let remainingProjects;
     if(remainder !== 0) {
       remainingProjects = projectsFiltered.splice(-remainder, remainder);
     }

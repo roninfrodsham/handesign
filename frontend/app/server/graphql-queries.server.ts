@@ -231,7 +231,7 @@ const homepageQuery: string = `
 function projectsQuery(category: string): string {
   return `
     query {
-      projects (filters: { Category: {Slug: {eq: "${category}"}} }, publicationState: LIVE, pagination: { limit: 100 }) {
+      projects (filters: { Category: {Slug: {eq: "${category}"}} }, publicationState: LIVE, sort: "id:desc", pagination: { limit: 100 }) {
         data {
           id,
           attributes {

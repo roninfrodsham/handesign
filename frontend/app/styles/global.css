@@ -68,7 +68,8 @@ input {
 }
 
 .header-spacing {
-  margin: 25px 0 10px 0;
+  margin: 0 0 10px 0;
+  padding-top: 25px;
 }
 
 .logo {
@@ -107,7 +108,7 @@ input {
   width: 100%;
   height: 100vh;
   z-index: 100;
-  background: #fff;
+  background: #D3D3D3;
   display: none;
   overflow-y: scroll;
 }
@@ -122,6 +123,7 @@ input {
 
 .close {
   position: absolute;
+  top: 10px;
   left: 5px;
   width: 20px;
   height: 20px;
@@ -359,7 +361,8 @@ footer {
   }
 
   .header-spacing {
-    margin: 70px 0 40px 0;
+    margin: 0 0 40px 0;
+    padding-top: 70px;
   }
 
   .logo {
@@ -370,6 +373,10 @@ footer {
   }
 
   .nav-toggle {
+    top: 0;
+  }
+
+  .close {
     top: 0;
   }
 
